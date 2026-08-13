@@ -9,10 +9,4 @@
 # Events are automatically moved to events-past.yml after their date
 # (or end_date for multi-day events) has passed.
 
-events:
-  - name: "ARRL Field Day"
-    date: "2026-06-27"
-    end_date: "2026-06-28"
-    url: "https://www.arrl.org/field-day"
-    location: "TBD, proposed Garmin Parking Garage"
-
+events: []

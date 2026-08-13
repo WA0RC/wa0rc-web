@@ -3,6 +3,12 @@
 # after their date (or end_date) has passed.
 
 events:
+  - name: "ARRL Field Day"
+    date: "2026-06-27"
+    end_date: "2026-06-28"
+    url: "https://www.arrl.org/field-day"
+    location: "TBD, proposed Garmin Parking Garage"
+
   - name: "Test Derek"
     date: "2026-04-28"
 
