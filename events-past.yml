@@ -9,9 +9,6 @@ events:
     url: "https://www.arrl.org/field-day"
     location: "TBD, proposed Garmin Parking Garage"
 
-  - name: "Test Derek"
-    date: "2026-04-28"
-
   - name: "POTA Outing"
     date: "2026-04-03"
     location: "Lone Elm Park, Olathe, KS"
