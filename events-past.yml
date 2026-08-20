@@ -3,6 +3,10 @@
 # after their date (or end_date) has passed.
 
 events:
+  - name: "Club Meeting with guest presentation from K4VP"
+    date: "2026-08-19"
+    location: "Olathe, KS"
+
   - name: "ARRL Field Day"
     date: "2026-06-27"
     end_date: "2026-06-28"
