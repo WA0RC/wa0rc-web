@@ -9,4 +9,8 @@
 # Events are automatically moved to events-past.yml after their date
 # (or end_date for multi-day events) has passed.
 
-events: []
+events:
+  - name: "VE Testing Session"
+    date: "2026-09-10"
+    location: "Olathe, KS"
+
