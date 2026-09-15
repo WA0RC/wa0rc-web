@@ -284,6 +284,42 @@
       font-size: 0.85rem;
     }
 
+    /* ---- REPEATER --- */
+    .repeater-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .repeater-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem 0.85rem;
+      background: var(--bg);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .repeater-call {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .repeater-freq {
+      color: var(--text-muted);
+    }
+
+    .repeater-desc {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: var(--sky);
+      font-size: 0.85rem;
+    }
+
     /* ---- CONTACT ---- */
     .contact-link {
       display: inline-flex;
@@ -575,6 +611,32 @@
         <a href="mailto:contact@wa0rc.org" class="contact-link">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           contact@wa0rc.org
+        </a>
+      </div>
+
+      
+      <!-- Repeater -->
+      <div class="card">
+        <div class="card-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
+            <path d="M1.42 9a16 16 0 0 1 21.16 0"/>
+            <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
+            <line x1="12" y1="20" x2="12.01" y2="20"/>
+          </svg>
+          Club Repeaters
+        </div>
+        <h2>Repeater Info</h2>
+        <ul class="repeater-list">
+          <li class="repeater-item">
+            <span><span class="repeater-call">WA0RC-B</span> <span class="repeater-freq">- 442.525MHz (+5MHz) </span></span>
+            <span class="repeater-desc">D-Star (REF030 C)</span>
+          </li>
+        </ul>
+        <p>Repeater issue? Report problems with the WA0RC club repeaters.</p>
+        <a href="mailto:repeater@wa0rc.org" class="contact-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          repeater@wa0rc.org
         </a>
       </div>
 
