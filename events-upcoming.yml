@@ -10,3 +10,6 @@
 # (or end_date for multi-day events) has passed.
 
 events: []
+   - name: "Club Meeting with Morserino presentation by KF0ORY"
+     date: "2026-09-16"              # single-day event
+     location: "Olathe, KS"          # optional, where the event is held
