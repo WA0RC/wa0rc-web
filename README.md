@@ -14,10 +14,12 @@ using Wrangler.
 index.html                   - Club website (single-page)
 events-upcoming.yml          - Upcoming club events data
 events-past.yml              - Past club events data
+events-maintenance.yml       - Club station maintenance and announcements
 wrangler.jsonc               - Cloudflare Pages / Wrangler configuration
 .assetsignore                - Files excluded from Cloudflare Pages deployment
 .github/workflows/           - GitHub Actions CI/CD
 .github/schemas/events.json  - JSON Schema for event YAML validation
+.github/schemas/maintenance.json - JSON Schema for maintenance validation
 .github/scripts/             - Automation scripts
 ```
 
@@ -56,6 +58,17 @@ date has passed.
 - `date` must use `YYYY-MM-DD` format
 - `url` must start with `http://` or `https://`
 - No extra/misspelled fields are allowed - the schema validator will catch them
+
+### Station Maintenance and Announcements
+
+Club station maintenance is managed in `events-maintenance.yml`. Entries use
+Central Standard Time (UTC-6), and date-only values mean 12:01 AM on that date.
+Use exactly one of `station` or `repeater`, with `start-datetime` required;
+`stop-datetime` and `description` are optional. An entry without
+`stop-datetime` remains visible until it is removed. Active and future entries
+are sorted by start time and rendered in a station announcements tile above
+About Us. The tile is removed automatically when no entries remain active or
+upcoming.
 
 ## Contributing
 

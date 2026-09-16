@@ -7,7 +7,8 @@ Process club events YAML files:
 
 import yaml
 import sys
-from datetime import date, datetime
+from html import escape
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 
@@ -20,6 +21,40 @@ def load_events(path: Path) -> list:
     if data is None or "events" not in data or data["events"] is None:
         return []
     return data["events"]
+
+
+MAINTENANCE_DATETIME_FORMATS = ("%Y-%m-%d %H:%M:%S", "%Y-%m-%d")
+CENTRAL_STANDARD_TIME = timezone(timedelta(hours=-6))
+
+
+def parse_maintenance_datetime(value: str) -> datetime:
+    """Parse a maintenance datetime as Central Standard Time without DST."""
+    for date_format in MAINTENANCE_DATETIME_FORMATS:
+        try:
+            parsed = datetime.strptime(str(value), date_format)
+            if date_format == "%Y-%m-%d":
+                parsed = parsed.replace(hour=0, minute=1)
+            return parsed
+        except ValueError:
+            continue
+    raise ValueError(f"Invalid maintenance datetime: {value}")
+
+
+def maintenance_start(entry: dict) -> datetime:
+    return parse_maintenance_datetime(entry["start-datetime"])
+
+
+def maintenance_end(entry: dict) -> datetime:
+    if not entry.get("stop-datetime"):
+        return datetime.max
+    return parse_maintenance_datetime(entry["stop-datetime"])
+
+
+def format_maintenance_datetime(value: str) -> str:
+    parsed = parse_maintenance_datetime(value)
+    if parsed.hour == 0 and parsed.minute == 1:
+        return parsed.strftime("%b %-d, %Y")
+    return parsed.strftime("%b %-d, %Y %I:%M %p")
 
 
 def save_events(path: Path, events: list, header_comment: str) -> None:
@@ -182,6 +217,59 @@ def build_events_html(upcoming_path: Path, past_path: Path) -> str:
     return "\n".join(lines)
 
 
+def build_maintenance_html(maintenance_path: Path, now: datetime) -> str:
+    """Build a maintenance card for active and upcoming entries."""
+    entries = [
+        entry for entry in load_events(maintenance_path)
+        if maintenance_end(entry) >= now
+    ]
+    entries.sort(key=maintenance_start)
+
+    if not entries:
+        return ""
+
+    lines = [
+        '      <div class="card card-full maintenance-card">',
+        '        <div class="card-label">',
+        '          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0L3 12v4h4z"/><path d="m16 8 4 4"/><path d="m14 10 4 4"/><path d="M3 20h18"/></svg>',
+        '          Station Announcements',
+        '        </div>',
+        '        <h2>Club Station Maintenance</h2>',
+        '        <ul class="maintenance-list">',
+    ]
+
+    for entry in entries:
+        identifier = escape(str(entry.get("station", entry.get("repeater"))))
+        start = format_maintenance_datetime(entry["start-datetime"])
+        stop = entry.get("stop-datetime")
+        date_display = start
+        if stop:
+            date_display += f" - {format_maintenance_datetime(stop)}"
+        description = entry.get("description")
+        detail = escape(description) if description else "Maintenance notice"
+        if maintenance_start(entry) <= now <= maintenance_end(entry):
+            status = "Active"
+        else:
+            status = "Scheduled"
+
+        lines.extend([
+            '          <li class="maintenance-item">',
+            f'            <span class="maintenance-date">{escape(date_display)}</span>',
+            '            <span class="maintenance-detail">',
+            f'              <span class="maintenance-station">{identifier}</span>',
+            f'              <span class="maintenance-status">{status}</span>',
+            f'              <span class="maintenance-description">{detail}</span>',
+            '            </span>',
+            '          </li>',
+        ])
+
+    lines.extend([
+        '        </ul>',
+        '      </div>',
+    ])
+    return "\n".join(lines)
+
+
 def inject_events_into_html(html_path: Path, events_html: str) -> None:
     """Replace content between event marker comments in index.html."""
     start_marker = "<!-- EVENTS-START -->"
@@ -209,11 +297,33 @@ def inject_events_into_html(html_path: Path, events_html: str) -> None:
     print(f"Updated {html_path} with events card.")
 
 
+def inject_maintenance_into_html(html_path: Path, maintenance_html: str) -> None:
+    """Replace content between maintenance marker comments in index.html."""
+    start_marker = "<!-- MAINTENANCE-START -->"
+    end_marker = "<!-- MAINTENANCE-END -->"
+    content = html_path.read_text()
+    start_idx = content.find(start_marker)
+    end_idx = content.find(end_marker)
+
+    if start_idx == -1 or end_idx == -1:
+        print(f"ERROR: Could not find maintenance markers in {html_path}")
+        sys.exit(1)
+
+    new_content = (
+        content[: start_idx + len(start_marker)]
+        + ("\n" + maintenance_html + "\n      " if maintenance_html else "\n      ")
+        + content[end_idx:]
+    )
+    html_path.write_text(new_content)
+    print(f"Updated {html_path} with maintenance card.")
+
+
 def main():
     repo_root = Path(".")
 
     upcoming_path = repo_root / "events-upcoming.yml"
     past_path = repo_root / "events-past.yml"
+    maintenance_path = repo_root / "events-maintenance.yml"
     html_path = repo_root / "index.html"
 
     today = date.today()
@@ -225,6 +335,11 @@ def main():
     # Step 2: Build and inject HTML
     events_html = build_events_html(upcoming_path, past_path)
     inject_events_into_html(html_path, events_html)
+
+    # Step 3: Build or remove the maintenance card
+    maintenance_now = datetime.now(CENTRAL_STANDARD_TIME).replace(tzinfo=None)
+    maintenance_html = build_maintenance_html(maintenance_path, maintenance_now)
+    inject_maintenance_into_html(html_path, maintenance_html)
 
 
 if __name__ == "__main__":
