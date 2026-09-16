@@ -169,6 +169,11 @@
 
     .station-card > p {
       margin-top: auto;
+      text-align: center;
+    }
+
+    .ve-card > p {
+      text-align: center;
     }
 
     .card:hover {
@@ -371,6 +376,13 @@
       display: block;
       margin-top: 0.25rem;
       color: var(--text-muted);
+    }
+
+    .station-frequency-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
     }
 
     .station-mode {
@@ -689,12 +701,15 @@
               <span class="station-call"><a href="https://aprs.fi/info/a/WA0RC-B" target="_blank" rel="noopener">WA0RC-B</a></span>
               <span class="station-status">On the air</span>
             </div>
-            <span class="station-details">442.525 MHz (+5 MHz)</span>
-            <div class="station-final-line">
-              <span class="station-mode">D-Star, REF030 C</span>
+            <div class="station-frequency-line">
+              <span class="station-details">442.525 MHz (+5 MHz)</span>
               <a class="station-link" href="https://aprs.fi/info/a/WA0RC-B" target="_blank" rel="noopener" aria-label="Open WA0RC-B details" title="Open station details">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
               </a>
+            </div>
+            <div class="station-final-line">
+              <span class="station-mode">D-Star</span>
+              <span class="station-note">REF030 C</span>
             </div>
           </li>
           <li class="station-item">
@@ -702,13 +717,15 @@
               <span class="station-call"><a href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener">KD0JWD-5</a></span>
               <span class="station-status">RX ONLY</span>
             </div>
-            <span class="station-details">446.175 MHz</span>
+            <div class="station-frequency-line">
+              <span class="station-details">446.175 MHz</span>
+              <a class="station-link" href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener" aria-label="Open KD0JWD-5 details" title="Open station details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+            </div>
             <span class="station-mode">UHF APRS iGate</span>
             <div class="station-final-line">
               <span class="station-note">Olathe, KS</span>
-              <a class="station-link" href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener" aria-label="Open KD0JWD-5 details" title="Open station details">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1 2-2V5a2 2 0 0 1 2-2h5"/></svg>
-              </a>
             </div>
           </li>
           <li class="station-item">
@@ -716,13 +733,15 @@
               <span class="station-call"><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=20&amp;ID=15918" target="_blank" rel="noopener">KD0JWD</a></span>
               <span class="station-status off-air">Off the air</span>
             </div>
-            <span class="station-details">145.230 MHz (-0.6 MHz)</span>
-            <span class="station-mode">BrandMeister DMR</span>
-            <div class="station-final-line">
-              <span class="station-note">Currently unavailable</span>
+            <div class="station-frequency-line">
+              <span class="station-details">145.230 MHz (-0.6 MHz)</span>
               <a class="station-link" href="https://www.repeaterbook.com/repeaters/details.php?state_id=20&amp;ID=15918" target="_blank" rel="noopener" aria-label="Open KD0JWD details" title="Open station details">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
               </a>
+            </div>
+            <span class="station-mode">BrandMeister DMR</span>
+            <div class="station-final-line">
+              <span class="station-note">Currently unavailable</span>
             </div>
           </li>
         </ul>
@@ -734,7 +753,7 @@
       </div>
 
       <!-- VE Testing -->
-      <div class="card">
+      <div class="card ve-card">
         <div class="card-label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
           Licensing
