@@ -10,7 +10,9 @@ on:
     paths:
       - 'events-upcoming.yml'
       - 'events-past.yml'
+      - 'events-maintenance.yml'
       - '.github/scripts/update_events.py'
+      - '.github/schemas/maintenance.json'
 
   # Manual trigger
   workflow_dispatch:
@@ -42,6 +44,7 @@ jobs:
         run: |
           check-jsonschema --schemafile .github/schemas/events.json events-upcoming.yml
           check-jsonschema --schemafile .github/schemas/events.json events-past.yml
+          check-jsonschema --schemafile .github/schemas/maintenance.json events-maintenance.yml
 
       - name: Run events update script
         run: python .github/scripts/update_events.py
@@ -56,6 +59,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add events-upcoming.yml events-past.yml index.html
+          git add events-upcoming.yml events-past.yml events-maintenance.yml index.html
           git commit -m "chore: update events and rebuild page"
           git push

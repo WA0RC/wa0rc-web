@@ -560,6 +560,76 @@
       margin-top: 0.5rem;
     }
 
+    /* ---- MAINTENANCE ---- */
+    .maintenance-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .maintenance-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.6rem 0.85rem;
+      background: var(--bg);
+      border-radius: 8px;
+    }
+
+    .maintenance-date {
+      flex-shrink: 0;
+      color: var(--navy);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .maintenance-detail {
+      min-width: 0;
+      text-align: right;
+    }
+
+    .maintenance-station,
+    .maintenance-status,
+    .maintenance-description {
+      display: block;
+    }
+
+    .maintenance-station {
+      color: var(--sky);
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .maintenance-status {
+      color: var(--amber);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .maintenance-description {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+
+    @media (max-width: 640px) {
+      .maintenance-item {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.15rem;
+      }
+
+      .maintenance-detail {
+        text-align: left;
+      }
+    }
+
     /* ---- ANIMATIONS ---- */
     @media (prefers-reduced-motion: no-preference) {
       .card {
@@ -598,6 +668,50 @@
 
   <main>
     <div class="card-grid">
+
+      <!-- MAINTENANCE-START -->
+      <div class="card card-full maintenance-card">
+        <div class="card-label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0-1.4l-1.6-1.6a1 1 0 0 0-1.4 0L3 12v4h4z"/><path d="m16 8 4 4"/><path d="m14 10 4 4"/><path d="M3 20h18"/></svg>
+          Station Announcements
+        </div>
+        <h2>Club Station Maintenance</h2>
+        <ul class="maintenance-list">
+          <li class="maintenance-item">
+            <span class="maintenance-date">Sep 15, 2026 - Sep 16, 2026</span>
+            <span class="maintenance-detail">
+              <span class="maintenance-station">WA0RC-B</span>
+              <span class="maintenance-status">Active</span>
+              <span class="maintenance-description">Repeater maintenance</span>
+            </span>
+          </li>
+          <li class="maintenance-item">
+            <span class="maintenance-date">Sep 18, 2026 10:00 PM - Sep 20, 2026</span>
+            <span class="maintenance-detail">
+              <span class="maintenance-station">WA0RC-B</span>
+              <span class="maintenance-status">Scheduled</span>
+              <span class="maintenance-description">Work on ircddbgateway config</span>
+            </span>
+          </li>
+          <li class="maintenance-item">
+            <span class="maintenance-date">Sep 20, 2026</span>
+            <span class="maintenance-detail">
+              <span class="maintenance-station">KD0JWD-5</span>
+              <span class="maintenance-status">Scheduled</span>
+              <span class="maintenance-description">Maintenance notice</span>
+            </span>
+          </li>
+          <li class="maintenance-item">
+            <span class="maintenance-date">Sep 30, 2026 - Oct 5, 2026 11:00 PM</span>
+            <span class="maintenance-detail">
+              <span class="maintenance-station">KD0JWD</span>
+              <span class="maintenance-status">Scheduled</span>
+              <span class="maintenance-description">Maintenance notice</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <!-- MAINTENANCE-END -->
 
       <!-- About -->
       <div class="card card-full">
@@ -692,7 +806,7 @@
             <path d="M8.53 16.11a6 6 0 0 1 6.95 0"/>
             <line x1="12" y1="20" x2="12.01" y2="20"/>
           </svg>
-          Club Stations
+          Station Status
         </div>
         <h2>Club Stations</h2>
         <ul class="station-list">

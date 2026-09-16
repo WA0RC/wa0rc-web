@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "WA0RC Club Station Maintenance",
+  "description": "Schema for events-maintenance.yml",
+  "type": "object",
+  "required": ["events"],
+  "additionalProperties": false,
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/maintenance"
+      }
+    }
+  },
+  "$defs": {
+    "maintenance": {
+      "type": "object",
+      "required": ["start-datetime"],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": ["station"],
+          "not": {"required": ["repeater"]}
+        },
+        {
+          "required": ["repeater"],
+          "not": {"required": ["station"]}
+        }
+      ],
+      "properties": {
+        "station": {
+          "type": "string",
+          "minLength": 1
+        },
+        "repeater": {
+          "type": "string",
+          "minLength": 1
+        },
+        "start-datetime": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}( \\d{2}:\\d{2}:\\d{2})?$"
+        },
+        "stop-datetime": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}( \\d{2}:\\d{2}:\\d{2})?$"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}
