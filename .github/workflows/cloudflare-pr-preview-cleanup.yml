@@ -6,6 +6,8 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
   cleanup:
@@ -37,3 +39,29 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: delete --config wrangler-preview.jsonc --force
+
+      - name: Update pull request comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          MARKER='<!-- cloudflare-pr-preview -->'
+          BODY=$(cat <<EOF
+          $MARKER
+          ## Cloudflare preview removed
+
+          The preview Worker for this pull request was deleted after the pull request closed.
+          EOF
+          )
+          COMMENT_ID=$(gh api \
+            --paginate \
+            "/repos/$REPOSITORY/issues/$PR_NUMBER/comments" \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | contains(\"$MARKER\"))) | .id" \
+            | head -n 1)
+          if [ -n "$COMMENT_ID" ]; then
+            gh api \
+              --method PATCH \
+              "/repos/$REPOSITORY/issues/comments/$COMMENT_ID" \
+              -f body="$BODY" >/dev/null
+          fi
