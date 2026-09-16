@@ -11,19 +11,6 @@
 #     description: "Repeater maintenance"
 
 events:
-  - station: "WA0RC-B"
-    start-datetime: "2026-09-15"
-    stop-datetime: "2026-09-16"
-    description: "Repeater maintenance"
-
-  - repeater: "WA0RC-B"
-    start-datetime: "2026-09-18 22:00:00"
-    stop-datetime: "2026-09-20"
-    description: "Work on ircddbgateway config"
-
-  - station: "KD0JWD-5"
-    start-datetime: "2026-09-20"
-
-  - station: "KD0JWD"
-    start-datetime: "2026-09-30"
-    stop-datetime: "2026-10-05 23:00:00"
+  - station: "WA0RC-B Brandmeister DMR Repeater"
+    start-datetime: "2026-07-01"
+    description: "Station is off the air and currently available. Return to service is in process."
