@@ -13,4 +13,4 @@
 events:
   - station: "WA0RC-B Brandmeister DMR Repeater"
     start-datetime: "2026-07-01"
-    description: "Station is off the air and currently available. Return to service is in process."
+    description: "Station is off-the-air and currently unavailable. Work to return to service is on-going."
