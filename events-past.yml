@@ -11,11 +11,27 @@ events:
     date: "2026-08-19"
     location: "Olathe, KS"
 
+  - name: "Club Meeting with Collegiate Radio presentation by KD8RTT"
+    date: "2026-07-22"
+    location: "Olathe, KS"
+
   - name: "ARRL Field Day"
     date: "2026-06-27"
     end_date: "2026-06-28"
     url: "https://www.arrl.org/field-day"
     location: "Garmin Parking Garage, Olathe, KS"
+
+  - name: "Club Meeting with 2026 Field Day presentation by KD8RTT"
+    date: "2026-06-17"
+    location: "Olathe, KS"
+
+  - name: "Club Meeting with 3D Printing presentation by KD0WGZ"
+    date: "2026-05-20"
+    location: "Olathe, KS"
+
+  - name: "Club Meeting with Project Fair"
+    date: "2026-04-15"
+    location: "Olathe, KS"
 
   - name: "POTA Outing"
     date: "2026-04-03"
@@ -29,9 +45,21 @@ events:
     date: "2026-03-28"
     location: "Kansas City Metro UHF/VHF"
 
+  - name: "Club Meeting"
+    date: "2026-03-18"
+    location: "Olathe, KS"
+
+  - name: "Club Meeting with Simplex contest presentation by KD8RTT"
+    date: "2026-02-18"
+    location: "Olathe, KS"
+
   - name: "Winter Field Day"
     date: "2026-01-24"
     end_date: "2026-01-25"
     url: "https://winterfieldday.org/"
     location: "Club Shack, Olathe, KS"
+
+  - name: "Club Meeting with Meshtastic discussion"
+    date: "2026-01-21"
+    location: "Olathe, KS"
 
