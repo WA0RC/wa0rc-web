@@ -138,11 +138,37 @@
     }
 
     .card {
+      display: flex;
+      flex-direction: column;
       background: var(--card-bg);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 1.75rem;
       transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .card-actions {
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .qso-card .card-actions {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      margin-top: 0;
+    }
+
+    .qso-card .card-actions p {
+      display: flex;
+      flex: 1;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+
+    .station-card > p {
+      margin-top: auto;
     }
 
     .card:hover {
@@ -362,13 +388,20 @@
       font-size: 0.8rem;
     }
 
+    .station-final-line {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+    }
+
     .station-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 28px;
       height: 28px;
-      margin-top: 0.35rem;
+      flex-shrink: 0;
       border-radius: 6px;
       background: rgba(74, 158, 237, 0.1);
       color: var(--sky);
@@ -639,7 +672,7 @@
       <!-- EVENTS-END -->
 
       <!-- Club Stations -->
-      <div class="card card-full">
+      <div class="card card-full station-card">
         <div class="card-label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M5 12.55a11 11 0 0 1 14.08 0"/>
@@ -657,10 +690,12 @@
               <span class="station-status">On the air</span>
             </div>
             <span class="station-details">442.525 MHz (+5 MHz)</span>
-            <span class="station-mode">D-Star, REF030 C</span>
-            <a class="station-link" href="https://aprs.fi/info/a/WA0RC-B" target="_blank" rel="noopener" aria-label="Open WA0RC-B details" title="Open station details">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
-            </a>
+            <div class="station-final-line">
+              <span class="station-mode">D-Star, REF030 C</span>
+              <a class="station-link" href="https://aprs.fi/info/a/WA0RC-B" target="_blank" rel="noopener" aria-label="Open WA0RC-B details" title="Open station details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+            </div>
           </li>
           <li class="station-item">
             <div class="station-heading">
@@ -669,10 +704,12 @@
             </div>
             <span class="station-details">446.175 MHz</span>
             <span class="station-mode">UHF APRS iGate</span>
-            <span class="station-note">Olathe, KS</span>
-            <a class="station-link" href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener" aria-label="Open KD0JWD-5 details" title="Open station details">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
-            </a>
+            <div class="station-final-line">
+              <span class="station-note">Olathe, KS</span>
+              <a class="station-link" href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener" aria-label="Open KD0JWD-5 details" title="Open station details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1 2-2V5a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+            </div>
           </li>
           <li class="station-item">
             <div class="station-heading">
@@ -681,10 +718,12 @@
             </div>
             <span class="station-details">145.230 MHz (-0.6 MHz)</span>
             <span class="station-mode">BrandMeister DMR</span>
-            <span class="station-note">Currently unavailable</span>
-            <a class="station-link" href="https://www.repeaterbook.com/repeaters/details.php?state_id=20&amp;ID=15918" target="_blank" rel="noopener" aria-label="Open KD0JWD details" title="Open station details">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
-            </a>
+            <div class="station-final-line">
+              <span class="station-note">Currently unavailable</span>
+              <a class="station-link" href="https://www.repeaterbook.com/repeaters/details.php?state_id=20&amp;ID=15918" target="_blank" rel="noopener" aria-label="Open KD0JWD details" title="Open station details">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3h7v7"/><path d="M10 14 21 3"/><path d="M21 14v5a2 2 0 0 1 2-2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"/></svg>
+              </a>
+            </div>
           </li>
         </ul>
         <p>Repeater issue? Report problems with the WA0RC club stations.</p>
@@ -719,17 +758,19 @@
       </div>
 
       <!-- QSO Contacts -->
-      <div class="card">
+      <div class="card qso-card">
         <div class="card-label">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/><path d="M12 2v2"/><path d="M12 20v2"/></svg>
           On the Air
         </div>
         <h2>QSO Contacts</h2>
-        <p>Worked WA0RC? Send your QSO details for confirmation.</p>
-        <a href="mailto:qso@wa0rc.org" class="contact-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-2-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          qso@wa0rc.org
-        </a>
+        <div class="card-actions">
+          <p>Worked WA0RC? Send your QSO details for confirmation.</p>
+          <a href="mailto:qso@wa0rc.org" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-2-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            qso@wa0rc.org
+          </a>
+        </div>
       </div>
 
       <!-- Contact -->
@@ -739,11 +780,13 @@
           Get in Touch
         </div>
         <h2>Contact Us</h2>
-        <p>Questions about membership, events, or licensing? We'd love to hear from you.</p>
-        <a href="mailto:contact@wa0rc.org" class="contact-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-2-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          contact@wa0rc.org
-        </a>
+        <div class="card-actions">
+          <p>Questions about membership, events, or licensing? We'd love to hear from you.</p>
+          <a href="mailto:contact@wa0rc.org" class="contact-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-2-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            contact@wa0rc.org
+          </a>
+        </div>
       </div>
 
     </div>
