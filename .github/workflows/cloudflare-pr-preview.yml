@@ -1,0 +1,55 @@
+name: Cloudflare PR Preview
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out trusted deployment files
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          persist-credentials: false
+
+      - name: Download pull request source
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          PR_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          mkdir -p .preview-source /tmp/pr-source
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${PR_REPO}/zipball/${PR_SHA}" \
+            > /tmp/pr-source/pr.zip
+          unzip -q /tmp/pr-source/pr.zip -d /tmp/pr-source/extracted
+          rsync -a /tmp/pr-source/extracted/*/ .preview-source/
+          rm -rf .preview-source/.git .preview-source/.github
+
+      - name: Create trusted Wrangler configuration
+        run: |
+          cat > wrangler-preview.jsonc <<EOF
+          {
+            "name": "wa0rc-pr-${{ github.event.pull_request.number }}",
+            "compatibility_date": "2026-04-19",
+            "compatibility_flags": ["nodejs_compat"],
+            "assets": {
+              "directory": "./.preview-source"
+            }
+          }
+          EOF
+
+      - name: Deploy preview Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler-preview.jsonc
