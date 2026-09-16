@@ -10,7 +10,4 @@
 #     stop-datetime: "2026-09-16"
 #     description: "Repeater maintenance"
 
-events:
-  - station: "WA0RC-B Brandmeister DMR Repeater"
-    start-datetime: "2026-07-01"
-    description: "Station is off-the-air and currently unavailable. Work to return to service is on-going."
+events: []
