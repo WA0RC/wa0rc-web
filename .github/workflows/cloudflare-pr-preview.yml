@@ -3,6 +3,8 @@ name: Cloudflare PR Preview
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
+    paths:
+      - 'index.html'
 
 permissions:
   contents: read
