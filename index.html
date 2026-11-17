@@ -372,6 +372,39 @@
       color: var(--red);
     }
 
+    .station-status.degraded,
+    .station-status.maintenance {
+      background: rgba(240, 168, 48, 0.16);
+      color: #9a6400;
+    }
+
+    .station-status.unknown {
+      background: rgba(90, 106, 122, 0.12);
+      color: var(--text-muted);
+    }
+
+    .station-item[data-station] {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .station-live {
+      display: block;
+      margin-top: auto;
+      padding-top: 0.2rem;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+    }
+
+    .station-live a {
+      color: var(--sky);
+      text-decoration: none;
+    }
+
+    .station-live a:hover {
+      text-decoration: underline;
+    }
+
     .station-details {
       display: block;
       margin-top: 0.25rem;
@@ -782,9 +815,9 @@
         </div>
         <h2>Club Stations</h2>
         <ul class="station-list">
-          <li class="station-item">
+          <li class="station-item" data-station="WA0RC-B">
             <div class="station-heading">
-              <span class="station-call"><a href="https://dstar.pzk.pl/?service=repeaters" target="_blank" rel="noopener">WA0RC-B</a></span>
+              <span class="station-call"><a href="https://dstar.wa0rc.org/" target="_blank" rel="noopener" title="Live status">WA0RC-B</a></span>
               <span class="station-status">On the air</span>
             </div>
             <div class="station-frequency-line">
@@ -798,9 +831,9 @@
               <span class="station-note">REF030 C</span>
             </div>
           </li>
-          <li class="station-item">
+          <li class="station-item" data-station="KD0JWD-5">
             <div class="station-heading">
-              <span class="station-call"><a href="https://aprs.fi/info/a/KD0JWD-5" target="_blank" rel="noopener">KD0JWD-5</a></span>
+              <span class="station-call"><a href="https://igate.wa0rc.org/" target="_blank" rel="noopener" title="Live status">KD0JWD-5</a></span>
               <span class="station-status">RX ONLY</span>
             </div>
             <div class="station-frequency-line">
@@ -814,9 +847,9 @@
               <span class="station-note">Olathe, KS EM28ou</span>
             </div>
           </li>
-          <li class="station-item">
+          <li class="station-item" data-station="KD0JWD">
             <div class="station-heading">
-              <span class="station-call"><a href="https://www.repeaterbook.com/repeaters/details.php?state_id=20&amp;ID=15918" target="_blank" rel="noopener">KD0JWD</a></span>
+              <span class="station-call"><a href="https://dmr.wa0rc.org/" target="_blank" rel="noopener" title="Live status">KD0JWD</a></span>
               <span class="station-status">On the air</span>
             </div>
             <div class="station-frequency-line">
@@ -905,6 +938,63 @@
   <script>
     document.getElementById("lastUpdated").textContent = lastUpdated;
     document.getElementById("copyrightYear").textContent = copyrightYear;
+  </script>
+  <script>
+    // Live club station status from /api/status (the site's Worker, which reads the public
+    // Grafana dashboards). Progressive enhancement: on any failure the static text stays.
+    (function () {
+      var items = document.querySelectorAll(".station-item[data-station]");
+      if (!items.length || !window.fetch) return;
+      var LABELS = { on_air: "On the air", degraded: "Degraded", off_air: "Off the air", maintenance: "Maintenance", unknown: "Status unknown" };
+      var STATES = ["on_air", "degraded", "off_air", "maintenance", "unknown"];
+      var CLASSES = { off_air: "off-air", degraded: "degraded", maintenance: "maintenance", unknown: "unknown" };
+      var timer = null;
+
+      function apply(data) {
+        if (!data || !data.stations || !data.generated_at) return;
+        if (Date.now() - Date.parse(data.generated_at) > 5 * 60 * 1000) return; // stale copy
+        items.forEach(function (li) {
+          var s = data.stations[li.getAttribute("data-station")];
+          if (!s || STATES.indexOf(s.state) < 0) return;
+          var badge = li.querySelector(".station-status");
+          if (badge) {
+            if (!badge.hasAttribute("data-static")) badge.setAttribute("data-static", badge.textContent);
+            // RX-only iGate keeps its "RX ONLY" label while it is fine
+            badge.textContent = (s.state === "on_air" && badge.getAttribute("data-static") === "RX ONLY") ? "RX ONLY" : LABELS[s.state];
+            badge.classList.remove("off-air", "degraded", "maintenance", "unknown");
+            if (CLASSES[s.state]) badge.classList.add(CLASSES[s.state]);
+            badge.title = s.detail || "";
+          }
+          var live = li.querySelector(".station-live");
+          if (!live) {
+            live = document.createElement("span");
+            live.className = "station-live";
+            li.appendChild(live);
+          }
+          live.textContent = s.detail ? s.detail + " \u00b7 " : "";
+          if (s.dashboard) {
+            var a = document.createElement("a");
+            a.href = s.dashboard; a.target = "_blank"; a.rel = "noopener";
+            a.textContent = "Live status";
+            live.appendChild(a);
+          }
+        });
+      }
+
+      function load() {
+        fetch("/api/status", { cache: "no-store" })
+          .then(function (r) { return r.ok ? r.json() : null; })
+          .then(apply)
+          .catch(function () { /* keep the static text */ });
+      }
+
+      function schedule() {
+        clearInterval(timer);
+        if (!document.hidden) { load(); timer = setInterval(load, 60 * 1000); }
+      }
+      document.addEventListener("visibilitychange", schedule);
+      schedule();
+    })();
   </script>
 </body>
 </html>

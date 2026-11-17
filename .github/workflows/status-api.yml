@@ -1,0 +1,48 @@
+name: Station Status API
+
+# Tests the /api/status Worker logic (no npm: Node's built-in test runner), and every hour checks
+# that the live endpoint still parses the Grafana public dashboards. A Grafana upgrade that changes
+# the public query API shows up here as reason "parse" or "upstream" instead of silently showing
+# "Status unknown" on the site.
+
+on:
+  pull_request:
+    paths:
+      - 'src/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/status-api.yml'
+  schedule:
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    if: github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+      - run: node --test src/worker.test.mjs
+
+  live:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check https://wa0rc.org/api/status
+        run: |
+          set -euo pipefail
+          body=$(curl -fsS -m 30 https://wa0rc.org/api/status)
+          echo "$body" | jq .
+          # Real outages are fine (that's what the page is for); broken plumbing is not.
+          broken=$(echo "$body" | jq -r '.stations | to_entries[] | select(.value.reason == "parse" or .value.reason == "upstream") | "\(.key): \(.value.reason)"')
+          if [ -n "$broken" ]; then
+            echo "::error::Status API can't read the Grafana dashboards: $broken"
+            exit 1
+          fi
