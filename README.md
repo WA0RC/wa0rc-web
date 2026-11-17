@@ -13,7 +13,7 @@ using Wrangler.
 ```text
 index.html                   - Club website (single-page)
 src/worker.js                - Worker: serves the site and GET /api/status (live station status)
-src/worker.test.mjs          - Tests for the status logic (node --test src/)
+src/worker.test.mjs          - Tests for the status logic (node --test src/worker.test.mjs)
 events-upcoming.yml          - Upcoming club events data
 events-past.yml              - Past club events data
 events-maintenance.yml       - Club station maintenance and announcements
@@ -118,6 +118,6 @@ The Club Stations card shows live status for WA0RC-B, KD0JWD-5 and KD0JWD.
 
 Testing:
 
-- `node --test src/` runs the tests. No npm needed.
+- `node --test src/worker.test.mjs` runs the tests. No npm needed.
 - `npx wrangler@4 dev` runs the site and the API locally.
 - The Station Status API workflow runs the tests on PRs, and checks the live endpoint every hour.

@@ -1,4 +1,4 @@
-// Tests for the /api/status logic. Run: node --test src/   (no npm, no dependencies)
+// Tests for the /api/status logic. Run: node --test src/worker.test.mjs   (no npm, no dependencies)
 import test from "node:test";
 import assert from "node:assert/strict";
 import { buildStatus, dstarState, dmrState, igateState, parseMaintenance, activeMaintenance, cstToMs, lastTime } from "./worker.js";
