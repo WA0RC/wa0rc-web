@@ -1,12 +1,15 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "wa0rc-web",
+  // src/worker.js: GET /api/status (live club station status); everything else is a static asset
+  "main": "src/worker.js",
   "compatibility_date": "2026-04-19",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"

@@ -1,3 +1,5 @@
 # Exclude event data files from deployed assets
 events-upcoming.yml
 events-past.yml
+# Worker source (deployed as the Worker, not as a static file)
+src/

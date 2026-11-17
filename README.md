@@ -12,6 +12,8 @@ using Wrangler.
 
 ```text
 index.html                   - Club website (single-page)
+src/worker.js                - Worker: serves the site and GET /api/status (live station status)
+src/worker.test.mjs          - Tests for the status logic (node --test src/)
 events-upcoming.yml          - Upcoming club events data
 events-past.yml              - Past club events data
 events-maintenance.yml       - Club station maintenance and announcements
@@ -99,3 +101,23 @@ also updates the `lastUpdated` date in `index.html` on each merge.
 
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for
 details.
+
+## Live Station Status
+
+The Club Stations card shows live status for WA0RC-B, KD0JWD-5 and KD0JWD.
+
+- The page calls `/api/status` on load and every 60 s while the tab is visible.
+- `src/worker.js` answers it by reading the public Grafana dashboards behind
+  [dstar.wa0rc.org](https://dstar.wa0rc.org), [igate.wa0rc.org](https://igate.wa0rc.org) and
+  [dmr.wa0rc.org](https://dmr.wa0rc.org), and caches the result at the edge for 60 s.
+- Each station's callsign links to its live status page.
+- States: On the air, Degraded, Off the air, Maintenance, Status unknown. Missing or stale data is
+  "Status unknown", never "Off the air".
+- An active entry in `events-maintenance.yml` shows that station as Maintenance.
+- If the request fails, the page keeps its static text.
+
+Testing:
+
+- `node --test src/` runs the tests. No npm needed.
+- `npx wrangler@4 dev` runs the site and the API locally.
+- The Station Status API workflow runs the tests on PRs, and checks the live endpoint every hour.
