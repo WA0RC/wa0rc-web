@@ -13,6 +13,7 @@ on:
       - 'events-maintenance.yml'
       - '.github/scripts/update_events.py'
       - '.github/schemas/maintenance.json'
+      - '.github/requirements.txt'
 
   # Manual trigger
   workflow_dispatch:
@@ -38,7 +39,7 @@ jobs:
           python-version: '3.12'
 
       - name: Install dependencies
-        run: pip install pyyaml check-jsonschema
+        run: pip install -r .github/requirements.txt
 
       - name: Validate event YAML files
         run: |

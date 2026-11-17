@@ -1,0 +1,24 @@
+# Keeps the workflow dependencies current. The site itself has no packages.
+version: 2
+updates:
+  # Actions are pinned to commit SHAs with a version comment; Dependabot bumps both.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      actions:
+        patterns: ["*"]
+
+  # Python tools used by update-events.yml (.github/requirements.txt).
+  - package-ecosystem: pip
+    directory: /.github
+    schedule:
+      interval: weekly
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      python-tools:
+        patterns: ["*"]

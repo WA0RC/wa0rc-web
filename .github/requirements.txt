@@ -1,0 +1,4 @@
+# Tools for .github/workflows/update-events.yml (event YAML validation + page update).
+# Pinned; Dependabot (pip) opens PRs for new versions.
+pyyaml==6.0.3
+check-jsonschema==0.39.0
